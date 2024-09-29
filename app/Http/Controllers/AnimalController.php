@@ -74,35 +74,23 @@ class AnimalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Animal $animal)
-    {
-        //
+    {            
+        $animal->update($request->all());
+        return response($animal, Response::HTTP_OK);
     }
 
-    public function destroy($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Animal  $animal
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Animal $animal)
     {
-        $animal = Animal::find($id);  // 手動加載資料
-        if (!$animal) {
-            return response()->json(['error' => 'Animal not found'], 404);
-        }
-
+        // 把這個實體物件刪除
         $animal->delete();
+        // 回傳 null 並且給予 204 狀態碼
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  \App\Models\Animal  $animal
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy(Animal $animal)
-    // {
-    //     dd($animal);
-    //     DB::enableQueryLog();
-    //     // 把這個實體物件刪除
-    //     $animal->delete();
-    //     dd(DB::getQueryLog());
-    //     // 回傳 null 並且給予 204 狀態碼
-    //     return response(null, Response::HTTP_NO_CONTENT);
         
-    // }
+    }
 }
